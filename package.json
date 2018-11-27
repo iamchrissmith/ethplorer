@@ -4,6 +4,7 @@
   "description": "ethPlorer looks at blocks on the Ethereum blockchain and reports ETH transfers between addresses.",
   "main": "index.js",
   "scripts": {
+    "start": "node ./index.js",
     "test": "test"
   },
   "repository": {
@@ -19,6 +20,7 @@
   "author": "Chris Smith",
   "license": "MIT",
   "dependencies": {
+    "commander": "^2.19.0",
     "web3": "^1.0.0-beta.36"
   }
 }
