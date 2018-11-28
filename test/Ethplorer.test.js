@@ -28,8 +28,9 @@ describe('Ethplorer', function() {
 
   describe('.run', () => {
     beforeEach(() => {
-      ethplorer.web3.eth.getBlockNumber = sandbox.fake();
+      
     });
+
     it('it should throw error if both rewind and startBlock are provided', async () => {
       try {
         ethplorer.program.rewind = 0;
@@ -41,6 +42,7 @@ describe('Ethplorer', function() {
         assert.equal(e.toString(), expected);
       }
     });
+
     it('it should throw error if both rewind and endBlock are provided', async () => {
       try {
         ethplorer.program.rewind = 0;
@@ -52,16 +54,53 @@ describe('Ethplorer', function() {
         assert.equal(e.toString(), expected);
       }
     });
+
     describe('rewind option provided', () => {
       let rewindStub;
+
       beforeEach(() => {
         ethplorer.program.rewind = 1;
         rewindStub = sandbox.stub(ethplorer, 'rewind');
       });
+
       it('it should call rewind()', async () => {
         await ethplorer.run();
         sinon.assert.calledOnce(rewindStub);
       });
+    });
+  });
+
+  describe('.rewind', () => {
+    beforeEach(() => {
+      ethplorer.program.rewind = 1;
+      ethplorer.web3.eth.getBlockNumber = sandbox.fake.returns(3);
+    });
+
+    it('it should throw if rewind option is not GTE 0', async () => {
+      ethplorer.program.rewind = -1;
+      try {
+        await ethplorer.rewind();
+        assert.isFalse(true, 'it should throw');
+      } catch(e) {
+        const expected = 'AssertionError [ERR_ASSERTION]: Rewind must be a positive integer';
+        assert.equal(e.toString(), expected);
+      }
+    });
+
+    it('it should throw if rewind option is a number', async () => {
+      ethplorer.program.rewind = 'bad';
+      try {
+        await ethplorer.rewind();
+        assert.isFalse(true, 'it should throw');
+      } catch(e) {
+        const expected = 'AssertionError [ERR_ASSERTION]: Rewind must be a positive integer';
+        assert.equal(e.toString(), expected);
+      }
+    });
+
+    it('it should call eth.getBlockNumber()', async () => {
+      await ethplorer.rewind();
+      sinon.assert.calledOnce(ethplorer.web3.eth.getBlockNumber);
     });
   });
 });

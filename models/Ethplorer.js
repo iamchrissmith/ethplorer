@@ -24,6 +24,6 @@ module.exports = class Ethplorer {
     assert(this.program.rewind >= 0, 'Rewind must be a positive integer');
 
     const blockNumber = await this.web3.eth.getBlockNumber();
-    console.log('Current blockNumber', blockNumber);
+    // console.log('Current blockNumber', blockNumber);
   }
 }
