@@ -7,7 +7,7 @@ const web3 = new Web3('https://rinkeby.infura.io/v3/c65b94c5bb2946b5b3a1bd0c084e
 
 program
   .version('0.1.0')
-  .option('-b, --blockNumber <n>', 'Block number to search from')
+  .option('-r, --rewind <n>', 'How many blocks back')
   .option('-s, --startBlock <n>', 'Starting block number')
   .option('-e, --endBlock <n>', 'End block number (inclusive)')
   .parse(process.argv);
