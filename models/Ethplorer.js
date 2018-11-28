@@ -23,7 +23,12 @@ module.exports = class Ethplorer {
   async rewind() {
     assert(this.program.rewind >= 0, 'Rewind must be a positive integer');
 
-    const blockNumber = await this.web3.eth.getBlockNumber();
-    // console.log('Current blockNumber', blockNumber);
+    const endBlock = await this.web3.eth.getBlockNumber();
+    const startBlock = endBlock - this.program.rewind;
+    const blocks = await this.getBlocks(startBlock, endBlock);
+  }
+
+  async getBlocks(start, end) {
+
   }
 }
