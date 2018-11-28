@@ -102,5 +102,12 @@ describe('Ethplorer', function() {
       await ethplorer.rewind();
       sinon.assert.calledOnce(ethplorer.web3.eth.getBlockNumber);
     });
+
+    it('it should call getBlocks()', async () => {
+      const getBlocksStub = sandbox.stub(ethplorer, 'getBlocks');
+      await ethplorer.rewind();
+      sinon.assert.calledOnce(getBlocksStub);
+      sinon.assert.calledWith(getBlocksStub, 2, 3);
+    });
   });
 });
