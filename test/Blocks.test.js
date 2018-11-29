@@ -1,7 +1,6 @@
 const {assert} = require('chai');
 
 const Block = require('../models/Block.js');
-const FakeWeb3 = require('./mocks/FakeWeb3.js');
 
 describe('Block', function() {
   let block;

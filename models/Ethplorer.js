@@ -1,6 +1,7 @@
 const assert = require('assert');
 const Block = require('./Block');
 const Transaction = require('./Transaction');
+const Reporter = require('./Reporter');
 
 module.exports = class Ethplorer {
   constructor(_web3, _program) {
@@ -15,11 +16,12 @@ module.exports = class Ethplorer {
       const err = new Error('You should provide only a rewind value or start and end block numbers');
       throw err;
     }
-
     
     if( this.program.hasOwnProperty('rewind')) {
       await this.rewind();
     }
+
+    this.reporter = this.buildReport();
   }
 
   async rewind() {
@@ -41,5 +43,10 @@ module.exports = class Ethplorer {
       });
       this.blocks.push(new Block(block));
     }
+  }
+
+  async buildReport() {
+    const reporter = new Reporter(this.transactions);
+    return await reporter.build();
   }
 }
