@@ -29,8 +29,9 @@ describe('Ethplorer', function() {
   });
 
   describe('.run', () => {
+    let buildReporterStub;
     beforeEach(() => {
-      
+      buildReporterStub = sandbox.stub(ethplorer, 'buildReporter').returns({});
     });
 
     it('it should throw error if both rewind and startBlock are provided', async () => {
@@ -55,6 +56,12 @@ describe('Ethplorer', function() {
         const expected = 'Error: You should provide only a rewind value or start and end block numbers';
         assert.equal(e.toString(), expected);
       }
+    });
+
+    it('it should call buildReporter and set to this.reporter', async () => {
+      await ethplorer.run();
+      sinon.assert.calledOnce(buildReporterStub);
+      assert.isObject(ethplorer.reporter);
     });
 
     describe('rewind option provided', () => {
