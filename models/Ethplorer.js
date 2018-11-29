@@ -1,5 +1,6 @@
 const assert = require('assert');
 const Block = require('./Block');
+const Transaction = require('./Transaction');
 
 module.exports = class Ethplorer {
   constructor(_web3, _program) {
@@ -32,8 +33,12 @@ module.exports = class Ethplorer {
   async getBlocks(start, end) {
     assert(end >= start, 'Start Block must be less or equal to the End Block');
     this.blocks = [];
+    this.transactions = [];
     for(;start <= end; start++) {
       const block = await this.web3.eth.getBlock(start);
+      this.transactions = block.transactions.map(tx => {
+        return new Transaction(tx);
+      });
       this.blocks.push(new Block(block));
     }
   }

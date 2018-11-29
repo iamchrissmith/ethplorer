@@ -3,6 +3,7 @@ const sinon = require('sinon');
 
 const Ethplorer = require('../models/Ethplorer.js');
 const Block = require('../models/Block.js');
+const Transaction = require('../models/Transaction.js');
 const FakeWeb3 = require('./mocks/FakeWeb3.js');
 
 const sandbox = sinon.createSandbox();
@@ -174,6 +175,13 @@ describe('Ethplorer', function() {
       assert.isArray(ethplorer.blocks);
       assert.equal(ethplorer.blocks.length, 1);
       assert.instanceOf(ethplorer.blocks[0], Block);
+    });
+
+    it('it should set an array of Transaction objects', async () => {
+      await ethplorer.getBlocks(1, 1);
+      assert.isArray(ethplorer.transactions);
+      assert.equal(ethplorer.transactions.length, 1);
+      assert.instanceOf(ethplorer.transactions[0], Transaction);
     });
   });
 });
