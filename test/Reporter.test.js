@@ -21,41 +21,39 @@ describe('Reporter', function() {
 
   beforeEach(() => {
     web3 = new FakeWeb3();
-    web3.getCode = sinon.stub()
-      .withArgs(fakeTx.to).returns('0x')
-      .withArgs(fakeTx.from).returns('0x123')
-      .withArgs(fakeTx1.to).returns('0x');
+    web3.getCode = sinon.stub().returns('0x');
+    web3.getCode.withArgs(fakeTx.from).returns('0x123');
     
     fakeTxs = [new Tx(fakeTx), new Tx(fakeTx1)];
     reporter = new Reporter(web3, fakeTxs);
+
+    expectedContracts[fakeTx.to] = false;
+    expectedContracts[fakeTx.from] = true;
+    expectedContracts[fakeTx1.to] = false;
 
     expectedResults = {
       total: new BN(fakeTx.value).plus(fakeTx1.value),
       to: {
         '0x27669D192b5bc0E37Da1D2fDb5eDE5d5bBC695b6': {
           wei: new BN(1000000000000000000),
-          contract: false,
+          contract: expectedContracts['0x27669D192b5bc0E37Da1D2fDb5eDE5d5bBC695b6'],
         },
         '0x0000000000000000000000000000000000000000': {
           wei: new BN(500000000000000000),
-          contract: false,
+          contract: expectedContracts['0x0000000000000000000000000000000000000000'],
         },
       },
       from: {
         '0x7BC658E83A94bff25d69E8a3ac289aA3b4D539B9': {
           wei: new BN(1000000000000000000),
-          contract: false,
+          contract: expectedContracts['0x7BC658E83A94bff25d69E8a3ac289aA3b4D539B9'],
         },
         '0x27669D192b5bc0E37Da1D2fDb5eDE5d5bBC695b6': {
           wei: new BN(500000000000000000),
-          contract: false,
+          contract: expectedContracts['0x27669D192b5bc0E37Da1D2fDb5eDE5d5bBC695b6'],
         },
       },
     }
-
-    expectedContracts[fakeTx.to] = false;
-    expectedContracts[fakeTx.from] = true;
-    expectedContracts[fakeTx1.to] = false;
   });
 
   afterEach(() => {

@@ -17,11 +17,11 @@ module.exports = class Reporter {
       this.results.total = this.results.total.plus(tx.value);
       this.results.to[tx.to] = {
         wei: this.sumAddress('to', tx),
-        contract: false
+        contract: await this.isContract(tx.to)
       };
       this.results.from[tx.from] = {
         wei: this.sumAddress('from', tx),
-        contract: false
+        contract: await this.isContract(tx.from)
       };
     }
     return this.results;
