@@ -21,8 +21,8 @@ describe('Reporter', function() {
 
   beforeEach(() => {
     web3 = new FakeWeb3();
-    web3.getCode = sinon.stub().returns('0x');
-    web3.getCode.withArgs(fakeTx.from).returns('0x123');
+    web3.eth.getCode = sinon.stub().returns('0x');
+    web3.eth.getCode.withArgs(fakeTx.from).returns('0x123');
     
     fakeTxs = [new Tx(fakeTx), new Tx(fakeTx1)];
     reporter = new Reporter(web3, fakeTxs);
@@ -111,31 +111,31 @@ describe('Reporter', function() {
   });
 
   describe('.isContract', () => {
-    it('it should call web3.getCode if it is an unknown address', async () => {
+    it('it should call web3.eth.getCode if it is an unknown address', async () => {
       assert.isTrue(!reporter.results.to[fakeTx.to] && !reporter.results.from[fakeTx.to]);
       const result = await reporter.isContract(fakeTx.to);
-      sinon.assert.calledOnce(web3.getCode);
-      sinon.assert.calledWith(web3.getCode, fakeTx.to);
+      sinon.assert.calledOnce(web3.eth.getCode);
+      sinon.assert.calledWith(web3.eth.getCode, fakeTx.to);
       assert.equal(expectedContracts[fakeTx.to], result);
     });
 
-    it('it should not call web3.getCode if it is a known recipient address', async () => {
+    it('it should not call web3.eth.getCode if it is a known recipient address', async () => {
       reporter.results.to[fakeTx.to] = {
         contract: expectedContracts[fakeTx.to],
       }
 
       const result = await reporter.isContract(fakeTx.to);
-      sinon.assert.notCalled(web3.getCode);
+      sinon.assert.notCalled(web3.eth.getCode);
       assert.equal(expectedContracts[fakeTx.to], result);
     });
 
-    it('it should not call web3.getCode if it is a known sender address', async () => {
+    it('it should not call web3.eth.getCode if it is a known sender address', async () => {
       reporter.results.from[fakeTx.to] = {
         contract: expectedContracts[fakeTx.to],
       }
 
       const result = await reporter.isContract(fakeTx.to);
-      sinon.assert.notCalled(web3.getCode);
+      sinon.assert.notCalled(web3.eth.getCode);
       assert.equal(expectedContracts[fakeTx.to], result);
     });
   });

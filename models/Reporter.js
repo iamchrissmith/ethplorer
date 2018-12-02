@@ -37,12 +37,12 @@ module.exports = class Reporter {
   }
 
   async isContract(address) {
-    if (reporter.results.to[address]) {
-      return reporter.results.to[address].contract;
-    } else if (reporter.results.from[address]) {
-      return reporter.results.from[address].contract;
+    if (this.results.to[address]) {
+      return this.results.to[address].contract;
+    } else if (this.results.from[address]) {
+      return this.results.from[address].contract;
     } else {
-      const code = await this.web3.getCode(address);
+      const code = await this.web3.eth.getCode(address);
       return code !== '0x';
     }
   }
