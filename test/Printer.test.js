@@ -58,4 +58,29 @@ describe('Printer', function() {
       );
     });
   });
+
+  describe('.buildTable', () => {
+    const expectedToTable = [
+      {
+        address: '0x123',
+        ether: 1,
+        contract: false,
+      }
+    ];
+
+    it('it should format the data into a printable table', () => {
+      const shiftStub = sandbox.stub(printer, 'shiftDecimal').returns(1);
+      const result = printer.buildTable(fakeReport.to);
+      sinon.assert.calledOnce(shiftStub);
+      sinon.assert.calledWith(shiftStub, fakeReport.to['0x123'].wei);
+      assert.deepEqual(result, expectedToTable);
+    });
+  });
+
+  describe('.shiftDecimal', () => {
+    it('it should return the amount shifted from wei to ether', () => {
+      const result = printer.shiftDecimal('1000000000000000000');
+      assert.equal(result, 1);
+    });
+  })
 });
