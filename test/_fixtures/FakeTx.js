@@ -12,5 +12,5 @@ module.exports = {
   to: '0x27669D192b5bc0E37Da1D2fDb5eDE5d5bBC695b6',
   transactionIndex: 5,
   v: '0x2b',
-  value: '1000000000000000000' 
+  value: '1000000000000000000'
 };
