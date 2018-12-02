@@ -35,10 +35,12 @@ describe('Ethplorer', function() {
   describe('.run', () => {
     let buildReportStub;
     let printerStub;
+    let rewindStub;
     
     beforeEach(() => {
       buildReportStub = sandbox.stub(ethplorer, 'buildReport').returns({});
       printerStub = sandbox.stub(Printer.prototype, 'print');
+      rewindStub = sandbox.stub(ethplorer, 'rewind');
     });
 
     it('it should throw error if both rewind and startBlock are provided', async () => {
@@ -65,35 +67,73 @@ describe('Ethplorer', function() {
       }
     });
 
+    it('it should throw error if only endBlock is provided', async () => {
+      try {
+        ethplorer.program.endBlock = 1;
+        await ethplorer.run();
+        assert.isFalse(true, 'it should throw on run()');
+      } catch(e) {
+        const expected = 'Error: You must provide a start and end block value';
+        assert.equal(e.toString(), expected);
+      }
+    });
+
+    it('it should throw error if only startBlock is provided', async () => {
+      try {
+        ethplorer.program.startBlock = 1;
+        await ethplorer.run();
+        assert.isFalse(true, 'it should throw on run()');
+      } catch(e) {
+        const expected = 'Error: You must provide a start and end block value';
+        assert.equal(e.toString(), expected);
+      }
+    });
+
     it('it should call buildReport and set to this.report', async () => {
+      ethplorer.program.rewind = 1;
       await ethplorer.run();
       sinon.assert.calledOnce(buildReportStub);
       assert.isObject(ethplorer.report);
     });
 
     it('it should call buildReport and set to this.report', async () => {
+      ethplorer.program.rewind = 1;
       await ethplorer.run();
       sinon.assert.calledOnce(buildReportStub);
       assert.isObject(ethplorer.report);
     });
 
     it('it should call print on Printer and pass to this.report', async () => {
+      ethplorer.program.rewind = 1;
       await ethplorer.run();
       sinon.assert.calledOnce(printerStub);
       sinon.assert.calledWith(printerStub, ethplorer.report);
     });
 
     describe('rewind option provided', () => {
-      let rewindStub;
-
       beforeEach(() => {
         ethplorer.program.rewind = 1;
-        rewindStub = sandbox.stub(ethplorer, 'rewind');
       });
 
       it('it should call rewind()', async () => {
         await ethplorer.run();
         sinon.assert.calledOnce(rewindStub);
+      });
+    });
+
+    describe('start/end option provided', () => {
+      let getBlocksStub;
+
+      beforeEach(() => {
+        ethplorer.program.startBlock = 1;
+        ethplorer.program.endBlock = 2;
+        getBlocksStub = sandbox.stub(ethplorer, 'getBlocks');
+      });
+
+      it('it should call gerBlocks()', async () => {
+        await ethplorer.run();
+        sinon.assert.calledOnce(getBlocksStub);
+        sinon.assert.calledWith(getBlocksStub, 1, 3);
       });
     });
   });

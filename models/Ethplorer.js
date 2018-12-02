@@ -18,8 +18,18 @@ module.exports = class Ethplorer {
       throw err;
     }
 
+    if (
+      !this.program.hasOwnProperty('rewind') &&
+      !(this.program.hasOwnProperty('startBlock') && this.program.hasOwnProperty('endBlock'))
+    ) {
+      const err = new Error('You must provide a start and end block value');
+      throw err;
+    }
+
     if( this.program.hasOwnProperty('rewind')) {
       await this.rewind();
+    } else {
+      await this.getBlocks(this.program.startBlock, this.program.endBlock + 1);
     }
 
     this.report = await this.buildReport();
