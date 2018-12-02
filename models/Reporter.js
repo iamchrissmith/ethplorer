@@ -1,7 +1,8 @@
 const BN = require('bignumber.js');
 
 module.exports = class Reporter {
-  constructor(_txs) {
+  constructor(_web3, _txs) {
+    this.web3 = _web3;
     this.txs = _txs;
     this.results = {
       total: BN(0),
@@ -32,6 +33,17 @@ module.exports = class Reporter {
       return this.results[group][address].wei.plus(tx.value);
     } else {
       return new BN(0).plus(tx.value);
+    }
+  }
+
+  async isContract(address) {
+    if (reporter.results.to[address]) {
+      return reporter.results.to[address].contract;
+    } else if (reporter.results.from[address]) {
+      return reporter.results.from[address].contract;
+    } else {
+      const code = await this.web3.getCode(address);
+      return code !== '0x';
     }
   }
 }
