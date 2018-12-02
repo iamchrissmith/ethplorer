@@ -21,7 +21,8 @@ module.exports = class Ethplorer {
       await this.rewind();
     }
 
-    this.reporter = this.buildReport();
+    this.report = await this.buildReport();
+    console.log(this.report);
   }
 
   async rewind() {
@@ -36,6 +37,7 @@ module.exports = class Ethplorer {
     assert(end >= start, 'Start Block must be less or equal to the End Block');
     this.blocks = [];
     this.transactions = [];
+    console.log(`Getting blocks from ${start} to ${end}`);
     for(;start <= end; start++) {
       const block = await this.web3.eth.getBlock(start, true);
       this.transactions = block.transactions.map(tx => {

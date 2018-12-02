@@ -64,7 +64,7 @@ describe('Ethplorer', function() {
     it('it should call buildReport and set to this.reporter', async () => {
       await ethplorer.run();
       sinon.assert.calledOnce(buildReportStub);
-      assert.isObject(ethplorer.reporter);
+      assert.isObject(ethplorer.report);
     });
 
     describe('rewind option provided', () => {

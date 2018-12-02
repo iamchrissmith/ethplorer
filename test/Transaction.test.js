@@ -7,10 +7,8 @@ describe('Transaction', function() {
   let fakeData;
 
   beforeEach(() => {
-    fakeData = { data: 
-      {
-        blockHash: "0x038d9a3c6df7bf9e02ff909bec135d0b8984b89c7f0b18ddc7a93a7cf1e1581e",
-      },
+    fakeData = {
+      blockHash: "0x038d9a3c6df7bf9e02ff909bec135d0b8984b89c7f0b18ddc7a93a7cf1e1581e",
     };
     tx = new Transaction(fakeData);
   });
@@ -21,7 +19,7 @@ describe('Transaction', function() {
   describe('constructor', () => {
     it('it should save data', async () => {
       assert.isObject(tx.data);
-      assert.equal(tx.data.blockHash, fakeData.data.blockHash);
+      assert.equal(tx.data.blockHash, fakeData.blockHash);
     });
   });
 });
