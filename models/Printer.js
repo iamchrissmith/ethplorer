@@ -22,7 +22,7 @@ module.exports = class Printer {
   }
   
   print(report) {
-    console.table('Summary', [{'Total Ether Sent': this.shiftDecimal(report.total)}]);
+    console.table('\n\rSummary', [{'Total Ether Sent': this.shiftDecimal(report.total)}]);
     console.table('Recipients', this.buildTable(report.to));
     console.table('Senders', this.buildTable(report.from));
   }
