@@ -12,6 +12,8 @@ const FakeWeb3 = require('./_mocks/FakeWeb3.js');
 
 const Reporter = require('../models/Reporter.js');
 
+const sandbox = sinon.createSandbox();
+
 describe('Reporter', function() {
   let report;
   let fakeData;
@@ -21,7 +23,7 @@ describe('Reporter', function() {
 
   beforeEach(() => {
     web3 = new FakeWeb3();
-    web3.eth.getCode = sinon.stub().returns('0x');
+    web3.eth.getCode = sandbox.stub().returns('0x');
     web3.eth.getCode.withArgs(fakeTx.from).returns('0x123');
     
     fakeTxs = [new Tx(fakeTx), new Tx(fakeTx1)];
@@ -57,6 +59,7 @@ describe('Reporter', function() {
   });
 
   afterEach(() => {
+    sandbox.restore();
   })
 
   describe('constructor', () => {

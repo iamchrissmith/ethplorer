@@ -15,14 +15,18 @@ module.exports = class Reporter {
     for(let i = 0; i < this.txs.length; i++){
       const tx = this.txs[i].data;
       this.results.total = this.results.total.plus(tx.value);
-      this.results.to[tx.to] = {
-        wei: this.sumAddress('to', tx),
-        contract: await this.isContract(tx.to)
-      };
-      this.results.from[tx.from] = {
-        wei: this.sumAddress('from', tx),
-        contract: await this.isContract(tx.from)
-      };
+      if (tx.to) {
+        this.results.to[tx.to] = {
+          wei: this.sumAddress('to', tx),
+          contract: await this.isContract(tx.to)
+        };
+      }
+      if (tx.from) {
+        this.results.from[tx.from] = {
+          wei: this.sumAddress('from', tx),
+          contract: await this.isContract(tx.from)
+        };
+      }
     }
     return this.results;
   }
