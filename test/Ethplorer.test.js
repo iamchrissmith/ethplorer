@@ -156,22 +156,29 @@ describe('Ethplorer', function() {
       }
     });
 
-    it('it should call getBlock end - start number of times (inclusive)', async () => {
-      await ethplorer.getBlocks(1, 3);
+    it('it should call getBlock end - start number of times', async () => {
+      await ethplorer.getBlocks(1, 4);
       sinon.assert.calledThrice(ethplorer.web3.eth.getBlock);
     });
 
     it('it should set an array of Block objects', async () => {
-      await ethplorer.getBlocks(1, 1);
+      await ethplorer.getBlocks(1, 2);
       assert.isArray(ethplorer.blocks);
       assert.equal(ethplorer.blocks.length, 1);
       assert.instanceOf(ethplorer.blocks[0], Block);
     });
 
-    it('it should set an array of Transaction objects', async () => {
-      await ethplorer.getBlocks(1, 1);
+    it('it should set an array of Transaction objects from one block', async () => {
+      await ethplorer.getBlocks(1, 2);
       assert.isArray(ethplorer.transactions);
       assert.equal(ethplorer.transactions.length, 1);
+      assert.instanceOf(ethplorer.transactions[0], Transaction);
+    });
+
+    it('it should set an array of Transaction objects from multiple block', async () => {
+      await ethplorer.getBlocks(1, 3);
+      assert.isArray(ethplorer.transactions);
+      assert.equal(ethplorer.transactions.length, 2);
       assert.instanceOf(ethplorer.transactions[0], Transaction);
     });
   });

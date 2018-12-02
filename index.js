@@ -16,8 +16,13 @@ program
 
 const run = async () => {
   console.log('starting program');
-  const ethplorer = new Ethplorer(web3, program);
-  await ethplorer.run();
+  try {
+    const ethplorer = new Ethplorer(web3, program);
+    await ethplorer.run();
+  } catch (e) {
+    console.log('there was a problem with the program');
+    console.log(e);
+  }
 
   process.exit();
 };

@@ -23,7 +23,6 @@ module.exports = class Ethplorer {
     }
 
     this.report = await this.buildReport();
-    console.log(this.report);
     const printer = new Printer();
     printer.print(this.report);
   }
@@ -41,11 +40,11 @@ module.exports = class Ethplorer {
     this.blocks = [];
     this.transactions = [];
     console.log(`Getting blocks from ${start} to ${end}`);
-    for(;start <= end; start++) {
-      const block = await this.web3.eth.getBlock(start, true);
-      this.transactions = block.transactions.map(tx => {
-        return new Transaction(tx);
-      });
+    for(let i = start; i < end; i++) {
+      const block = await this.web3.eth.getBlock(i, true);
+      for (const tx of block.transactions) {
+        this.transactions.push(new Transaction(tx));
+      }
       this.blocks.push(new Block(block));
     }
   }
