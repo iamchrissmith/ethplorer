@@ -16,7 +16,7 @@ module.exports = class Ethplorer {
       const err = new Error('You should provide only a rewind value or start and end block numbers');
       throw err;
     }
-    
+
     if( this.program.hasOwnProperty('rewind')) {
       await this.rewind();
     }
@@ -37,7 +37,7 @@ module.exports = class Ethplorer {
     this.blocks = [];
     this.transactions = [];
     for(;start <= end; start++) {
-      const block = await this.web3.eth.getBlock(start);
+      const block = await this.web3.eth.getBlock(start, true);
       this.transactions = block.transactions.map(tx => {
         return new Transaction(tx);
       });
