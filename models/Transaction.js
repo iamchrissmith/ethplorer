@@ -1,5 +1,5 @@
 module.exports = class Transaction {
-  constructor(_data) {
-    this.data = _data;
+  constructor(_tx) {
+    this.data = _tx.data;
   }
 }

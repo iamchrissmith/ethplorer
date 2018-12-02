@@ -165,7 +165,6 @@ describe('Ethplorer', function() {
     let reporterBuildStub;
     
     beforeEach(() => {
-      // ethplorer.blocks = [new Block(fakeBlock)];
       fakeReport = {report: true};
       ethplorer.transactions = [new Transaction(fakeBlock.transactions[0])];
       reporterBuildStub = sandbox.stub(Reporter.prototype, 'build').returns(fakeReport);

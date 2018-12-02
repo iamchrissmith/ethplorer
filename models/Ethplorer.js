@@ -46,7 +46,7 @@ module.exports = class Ethplorer {
   }
 
   async buildReport() {
-    const reporter = new Reporter(this.transactions);
+    const reporter = new Reporter(this.web3, this.transactions);
     return await reporter.build();
   }
 }
