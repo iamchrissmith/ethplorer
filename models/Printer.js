@@ -1,5 +1,11 @@
 const cTable = require('console.table');
+const BN = require('bignumber.js');
+
 module.exports = class Printer {
+  shiftDecimal(amount) {
+    return new BN(amount).shiftedBy(-18).toString();
+  }
+
   buildTable(data) {
     const keys = Object.keys(data);
     const table = [];
@@ -7,15 +13,15 @@ module.exports = class Printer {
       const address = keys[i];
       table.push({
         address: address,
-        ether: data[address].wei,
+        ether: this.shiftDecimal(data[address].wei),
         contract: data[address].contract,
       });
     }
     return table;
   }
+  
   print(report) {
-    console.log('results');
-    console.table('Summary', [{'Total Ether Sent': report.total.toString()}]);
+    console.table('Summary', [{'Total Ether Sent': this.shiftDecimal(report.total)}]);
     console.table('Recipients', this.buildTable(report.to));
     console.table('Senders', this.buildTable(report.from));
   }
