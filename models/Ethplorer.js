@@ -29,7 +29,7 @@ module.exports = class Ethplorer {
     if( this.program.hasOwnProperty('rewind')) {
       await this.rewind();
     } else {
-      await this.getBlocks(this.program.startBlock, this.program.endBlock + 1);
+      await this.getBlocks(parseInt(this.program.startBlock), parseInt(this.program.endBlock) + 1);
     }
 
     this.report = await this.buildReport();
@@ -49,7 +49,7 @@ module.exports = class Ethplorer {
     assert(end >= start, 'Start Block must be less or equal to the End Block');
     this.blocks = [];
     this.transactions = [];
-    console.log(`Getting blocks from ${start} to ${end}`);
+    console.log(`Getting blocks from ${start} to ${end - 1} (inclusive)`);
     for(let i = start; i < end; i++) {
       const block = await this.web3.eth.getBlock(i, true);
       for (const tx of block.transactions) {
