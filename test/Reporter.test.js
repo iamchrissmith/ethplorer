@@ -18,7 +18,7 @@ describe('Reporter', function() {
     reporter = new Reporter(fakeTxs);
     expectedResults = {
       total: new BN(fakeTx.data.value).plus(fakeTx1.data.value),
-      recipients: {
+      to: {
         '0x27669D192b5bc0E37Da1D2fDb5eDE5d5bBC695b6': {
           wei: new BN(1000000000000000000),
           contract: false,
@@ -28,7 +28,7 @@ describe('Reporter', function() {
           contract: false,
         },
       },
-      senders: {
+      from: {
         '0x7BC658E83A94bff25d69E8a3ac289aA3b4D539B9': {
           wei: new BN(1000000000000000000),
           contract: false,
@@ -57,10 +57,10 @@ describe('Reporter', function() {
       assert.isObject(result);
       assert.property(result, 'total');
       assert.instanceOf(result.total, BN);
-      assert.property(result, 'recipients');
-      assert.isObject(result.recipients);
-      assert.property(result, 'senders');
-      assert.isObject(result.senders);
+      assert.property(result, 'to');
+      assert.isObject(result.to);
+      assert.property(result, 'from');
+      assert.isObject(result.from);
     });
 
     it('it should sum ether', async () => {
@@ -70,12 +70,27 @@ describe('Reporter', function() {
 
     it('it should report recipients', async () => {
       const result = await reporter.build();
-      assert.deepEqual(result.recipients, expectedResults.recipients);
+      assert.deepEqual(result.to, expectedResults.to);
     });
 
     it('it should report senders', async () => {
       const result = await reporter.build();
-      assert.deepEqual(result.senders, expectedResults.senders);
+      assert.deepEqual(result.from, expectedResults.from);
+    });
+  });
+
+  describe('.sumAddress', () => {
+    it('it should return value when first transaction', () => {
+      const result = reporter.sumAddress('from', fakeTx.data);
+      assert.equal(result.toString(), fakeTx.data.value);
+    });
+    it('it should return sum when second transaction', () => {
+      const expectedResult = new BN(fakeTx.data.value).plus(fakeTx.data.value);
+      reporter.results.from[fakeTx.data.from] = {
+        wei: new BN(fakeTx.data.value),
+      }
+      const result = reporter.sumAddress('from', fakeTx.data);
+      assert.equal(result.toString(), expectedResult.toString());
     });
   });
 

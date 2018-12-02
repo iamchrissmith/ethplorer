@@ -5,8 +5,8 @@ module.exports = class Reporter {
     this.txs = _txs;
     this.results = {
       total: BN(0),
-      recipients: {},
-      senders: {},
+      from: {},
+      to: {},
     }
   }
 
@@ -14,21 +14,24 @@ module.exports = class Reporter {
     for(let i = 0; i < this.txs.length; i++){
       const tx = this.txs[i].data;
       this.results.total = this.results.total.plus(tx.value);
-      this.results.recipients[tx.to] = {
-        wei: 
-          this.results.recipients[tx.to] ? 
-          this.results.recipients[tx.to].wei.plus(tx.value) : 
-          new BN(0).plus(tx.value),
+      this.results.to[tx.to] = {
+        wei: this.sumAddress('to', tx),
         contract: false
       };
-      this.results.senders[tx.from] = {
-        wei: 
-          this.results.senders[tx.from] ? 
-          this.results.senders[tx.from].wei.plus(tx.value) : 
-          new BN(0).plus(tx.value),
+      this.results.from[tx.from] = {
+        wei: this.sumAddress('from', tx),
         contract: false
       };
     }
     return this.results;
+  }
+
+  sumAddress(group, tx) {
+    const address = tx[group];
+    if (this.results[group][address]) {
+      return this.results[group][address].wei.plus(tx.value);
+    } else {
+      return new BN(0).plus(tx.value);
+    }
   }
 }
