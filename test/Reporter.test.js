@@ -2,6 +2,10 @@ const {assert} = require('chai');
 const BN = require('bignumber.js');
 
 const fakeTx = require('./_fixtures/FakeTx.js');
+const fakeTx1 = JSON.parse(JSON.stringify(fakeTx));
+fakeTx1.data.value = '500000000000000000';
+fakeTx1.data.from = '0x27669D192b5bc0E37Da1D2fDb5eDE5d5bBC695b6';
+fakeTx1.data.to = '0x0000000000000000000000000000000000000000';
 const Reporter = require('../models/Reporter.js');
 
 describe('Reporter', function() {
@@ -10,20 +14,34 @@ describe('Reporter', function() {
   let expectedResults;
 
   beforeEach(() => {
-    fakeTxs = [fakeTx];
+    fakeTxs = [fakeTx, fakeTx1];
     reporter = new Reporter(fakeTxs);
     expectedResults = {
-      total: new BN(1000000000000000000),
-      recipients: [{
-        address: '0xbcd24b757c08843010b94cda1f8d03b90b167313',
-        wei: new BN(1000000000000000000),
-        contract: false,
-      }],
-      senders: [{
-        address: '0x9762f6858ccae9ca006485fe1a9e6820a44419b1',
-        wei: new BN(-1000000000000000000),
-        contract: false,
-      }],
+      total: new BN(1000000000000000000).plus(500000000000000000),
+      recipients: [
+        {
+          address: '0xbcd24b757c08843010b94cda1f8d03b90b167313',
+          wei: new BN(1000000000000000000),
+          contract: false,
+        },
+        {
+          address: '0x0000000000000000000000000000000000000000',
+          wei: new BN(500000000000000000),
+          contract: false,
+        },
+      ],
+      senders: [
+        {
+          address: '0x9762f6858ccae9ca006485fe1a9e6820a44419b1',
+          wei: new BN(-1000000000000000000),
+          contract: false,
+        },
+        {
+          address: '0x27669D192b5bc0E37Da1D2fDb5eDE5d5bBC695b6',
+          wei: new BN(-500000000000000000),
+          contract: false,
+        },
+      ],
     }
   });
 
