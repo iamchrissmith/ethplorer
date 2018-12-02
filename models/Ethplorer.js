@@ -2,6 +2,7 @@ const assert = require('assert');
 const Block = require('./Block');
 const Transaction = require('./Transaction');
 const Reporter = require('./Reporter');
+const Printer = require('./Printer');
 
 module.exports = class Ethplorer {
   constructor(_web3, _program) {
@@ -23,6 +24,8 @@ module.exports = class Ethplorer {
 
     this.report = await this.buildReport();
     console.log(this.report);
+    const printer = new Printer();
+    printer.print(this.report);
   }
 
   async rewind() {

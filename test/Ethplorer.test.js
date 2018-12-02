@@ -5,6 +5,7 @@ const Ethplorer = require('../models/Ethplorer.js');
 const Block = require('../models/Block.js');
 const Transaction = require('../models/Transaction.js');
 const Reporter = require('../models/Reporter.js');
+const Printer = require('../models/Printer.js');
 
 const FakeWeb3 = require('./_mocks/FakeWeb3.js');
 const fakeBlock = require('./_fixtures/FakeBlock.js');
@@ -33,8 +34,11 @@ describe('Ethplorer', function() {
 
   describe('.run', () => {
     let buildReportStub;
+    let printerStub;
+    
     beforeEach(() => {
       buildReportStub = sandbox.stub(ethplorer, 'buildReport').returns({});
+      printerStub = sandbox.stub(Printer.prototype, 'print');
     });
 
     it('it should throw error if both rewind and startBlock are provided', async () => {
@@ -61,10 +65,22 @@ describe('Ethplorer', function() {
       }
     });
 
-    it('it should call buildReport and set to this.reporter', async () => {
+    it('it should call buildReport and set to this.report', async () => {
       await ethplorer.run();
       sinon.assert.calledOnce(buildReportStub);
       assert.isObject(ethplorer.report);
+    });
+
+    it('it should call buildReport and set to this.report', async () => {
+      await ethplorer.run();
+      sinon.assert.calledOnce(buildReportStub);
+      assert.isObject(ethplorer.report);
+    });
+
+    it('it should call print on Printer and pass to this.report', async () => {
+      await ethplorer.run();
+      sinon.assert.calledOnce(printerStub);
+      sinon.assert.calledWith(printerStub, ethplorer.report);
     });
 
     describe('rewind option provided', () => {
