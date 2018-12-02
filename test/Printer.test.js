@@ -2,6 +2,8 @@ const {assert} = require('chai');
 const sinon = require('sinon');
 const sandbox = sinon.createSandbox();
 
+const colors = require('colors');
+
 const Printer = require('../models/Printer.js');
 
 describe('Printer', function() {
@@ -64,7 +66,13 @@ describe('Printer', function() {
       {
         address: '0x123',
         ether: 1,
-        contract: false,
+      }
+    ];
+
+    const expectedFromTable = [
+      {
+        address: colors.blue('0x321'),
+        ether: 1,
       }
     ];
 
@@ -74,6 +82,14 @@ describe('Printer', function() {
       sinon.assert.calledOnce(shiftStub);
       sinon.assert.calledWith(shiftStub, fakeReport.to['0x123'].wei);
       assert.deepEqual(result, expectedToTable);
+    });
+
+    it('it should add blue coloring to contract addresses', () => {
+      const shiftStub = sandbox.stub(printer, 'shiftDecimal').returns(1);
+      const result = printer.buildTable(fakeReport.from);
+      sinon.assert.calledOnce(shiftStub);
+      sinon.assert.calledWith(shiftStub, fakeReport.from['0x321'].wei);
+      assert.deepEqual(result, expectedFromTable);
     });
   });
 

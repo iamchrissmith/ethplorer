@@ -1,4 +1,5 @@
 const cTable = require('console.table');
+const colors = require('colors');
 const BN = require('bignumber.js');
 
 module.exports = class Printer {
@@ -12,9 +13,9 @@ module.exports = class Printer {
     for(let i = 0; i < keys.length; i++) {
       const address = keys[i];
       table.push({
-        address: address,
+        address: data[address].contract ? colors.blue(address) : address,
         ether: this.shiftDecimal(data[address].wei),
-        contract: data[address].contract,
+        // contract: data[address].contract,
       });
     }
     return table;
