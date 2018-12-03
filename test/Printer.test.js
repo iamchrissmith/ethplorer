@@ -47,15 +47,15 @@ describe('Printer', function() {
       sinon.assert.calledThrice(tableStub);
       const summaryCall = tableStub.getCall(0);
       sinon.assert.calledWith(tableStub,
-        'Summary',
+        '\n\rSummary',
         [{'Total Ether Sent': 1}],
       );
       sinon.assert.calledWith(tableStub,
-        'Recipients',
+        'Senders',
         ['table'],
       );
       sinon.assert.calledWith(tableStub,
-        'Senders',
+        'Recipients',
         ['table'],
       );
     });
@@ -64,15 +64,15 @@ describe('Printer', function() {
   describe('.buildTable', () => {
     const expectedToTable = [
       {
-        address: '0x123',
-        ether: 1,
+        Address: '0x123',
+        Ether: 1,
       }
     ];
 
     const expectedFromTable = [
       {
-        address: colors.blue('0x321'),
-        ether: 1,
+        Address: colors.bgBlue(colors.black('0x321')),
+        Ether: 1,
       }
     ];
 

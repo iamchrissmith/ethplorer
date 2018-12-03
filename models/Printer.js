@@ -13,8 +13,8 @@ module.exports = class Printer {
     for(let i = 0; i < keys.length; i++) {
       const address = keys[i];
       table.push({
-        address: data[address].contract ? colors.blue(address) : address,
-        ether: this.shiftDecimal(data[address].wei),
+        Address: data[address].contract ? colors.bgBlue(colors.black(address)) : address,
+        Ether: this.shiftDecimal(data[address].wei),
         // contract: data[address].contract,
       });
     }
