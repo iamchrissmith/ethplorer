@@ -2,7 +2,11 @@
 
 Ethplorer is a simple cli block explorer for the Ethereum blockchain.
 
-## Running
+## RUNNING
+
+Clone this repo to a local directory. Add your [Infura](https://infura.io){target=_blank} ID to your `.env` file as `INFURA_ID=xadf345...`
+
+Run `ethplorer` in the command line with one of the following options.
 
 It has two modes: 
 
@@ -17,7 +21,7 @@ Other Commands:
 `-V`/`--version`: version information about Ethplorer
 `-h`/`-help`: Help about the available commands.
 
-## Output
+## OUTPUT
 
 The Ethplorer is build to tell you about the transfer of Ether that occurred in the block range.
 
@@ -62,9 +66,6 @@ Address                                     Ether
 0xF36d081965A0DeeDCF65178261fe83CE29340292  1
 ```
 
-## How to test
+## TESTING
 
 You can run the tests by running `npm run test` from within the tool's directory.
-
-## How to install
-

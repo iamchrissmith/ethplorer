@@ -1,9 +1,10 @@
 #!/usr/bin/env node
+require('dotenv').load();
 const program = require('commander');
 const colors = require('colors');
 
 const Web3 = require('web3');
-const web3 = new Web3('https://rinkeby.infura.io/v3/c65b94c5bb2946b5b3a1bd0c084e8ac5');
+const web3 = new Web3(`https://rinkeby.infura.io/v3/${process.env.INFURA_ID}`);
 const Ethplorer = require('../models/Ethplorer.js');
 
 const Spinner = require('cli-spinner').Spinner;
