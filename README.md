@@ -4,7 +4,7 @@ Ethplorer is a simple cli block explorer for the Ethereum blockchain.
 
 ## RUNNING
 
-Clone this repo to a local directory. Add your [Infura](https://infura.io){target=_blank} ID to your `.env` file as `INFURA_ID=xadf345...`
+Clone this repo to a local directory. Add your [Infura](https://infura.io){:target="_blank"} ID to your `.env` file as `INFURA_ID=xadf345...`
 
 Run `ethplorer` in the command line with one of the following options.
 
