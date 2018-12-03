@@ -8,16 +8,19 @@ Clone this repo to a local directory. Add your [Infura](https://infura.io){targe
 
 Run `ethplorer` in the command line with one of the following options.
 
-It has two modes: 
+It has two modes:
 
 - Rewind mode: use the `-r` or `--rewind` flag to tell Ethplorer how many blocks back in time you'd like to ethplore.
 - Range mode: use the `-s` + `-e` or `--startBlock` + `--endBlock` flags to tell Ethplorer which range of blocks you want to explore. (Note: `endBlock` will be included in the results).
+
+By default Ethplorer will connect to the Rinkeby test blockchain.  If you would like to overwrite this behavior you can save `CHAIN=` to your `.env` file or pass in the optional `-c`/`--chain` parameter to the CLI.
 
 Example commands:
 `node index.js -r 5`: report on the last 5 blocks
 `node index.js -s 100000 -e 100010`: report on the blocks 100,000 - 100,010
 
-Other Commands: 
+Other Flags: 
+`-C`/`--chain`: overwrite the ENV set or default chain
 `-V`/`--version`: version information about Ethplorer
 `-h`/`-help`: Help about the available commands.
 
