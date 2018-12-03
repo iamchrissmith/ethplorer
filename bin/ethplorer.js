@@ -4,7 +4,7 @@ const colors = require('colors');
 
 const Web3 = require('web3');
 const web3 = new Web3('https://rinkeby.infura.io/v3/c65b94c5bb2946b5b3a1bd0c084e8ac5');
-const Ethplorer = require('./models/Ethplorer.js');
+const Ethplorer = require('../models/Ethplorer.js');
 
 const Spinner = require('cli-spinner').Spinner;
 const spinner = new Spinner('Ethploring the chain... %s\r');

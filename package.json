@@ -7,6 +7,9 @@
     "start": "node ./index.js",
     "test": "nodemon --watch models/ --watch test/ --exec 'mocha ./test/*.test.js'"
   },
+  "bin": {
+    "ethplorer": "./bin/ethplorer.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/iamchrissmith/"
